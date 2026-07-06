@@ -4,24 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Tej Patel — Supply Chain & Operations</title>
-  <meta name="description" content="Tej Patel — supply chain and operations consultant. From the Amazon warehouse floor to enterprise supply chain transformation." />
+  <title>Tej Patel — Strategy · AI · Supply Chain</title>
+  <meta name="description" content="Tej Patel — supply chain & operations consultant in NYC. From the warehouse floor to the AI era. Strategy, AI, supply chain, analytics." />
 
-  <!-- Fonts: Oswald (headings), Source Sans 3 (body), IBM Plex Mono (labels) -->
+  <!-- Fonts: Oswald (display), Source Sans 3 (body), IBM Plex Mono (labels) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
     /* ============================================================
-       DESIGN TOKENS — change these five values to re-theme the site
+       DESIGN TOKENS — v3 "Blueprint" (Rev C)
+       TUNING DIALS: if the grid feels busy on your monitor,
+       lower the two --grid values (e.g. .03 / .06).
        ============================================================ */
     :root {
-      --ink:   #182430;
-      --fog:   #ECEFF1;
-      --paper: #FFFFFF;
-      --cargo: #F5B301;
-      --steel: #5C6B78;
+      --sheet:   #0C2C4E;                       /* drafting-table blue   */
+      --sheet-2: #0A2440;                       /* deeper blue (footer)  */
+      --panel:   #113455;                       /* card / spec sheet     */
+      --paper:   #E9F1F8;                       /* linework + main text  */
+      --faint:   #9FB6CC;                       /* muted text            */
+      --line:    rgba(233, 241, 248, 0.14);     /* hairlines             */
+      --grid-minor: rgba(233, 241, 248, 0.05);  /* fine grid   [dial]    */
+      --grid-major: rgba(233, 241, 248, 0.085); /* coarse grid [dial]    */
+      --markup:  #FF6B35;                       /* redline-pen orange    */
 
       --display: 'Oswald', sans-serif;
       --body:    'Source Sans 3', sans-serif;
@@ -30,254 +36,928 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
       font-family: var(--body);
-      background: var(--fog);
-      color: var(--ink);
-      line-height: 1.6;
+      color: var(--paper);
+      line-height: 1.65;
       font-size: 17px;
+      background-color: var(--sheet);
+      background-image:
+        linear-gradient(var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+        linear-gradient(var(--grid-major) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
     }
 
-    .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+    /* Depth vignette so the sheet doesn't read as a flat fill */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -10%, rgba(233, 241, 248, 0.05), transparent 65%),
+        radial-gradient(ellipse 120% 70% at 50% 115%, rgba(4, 16, 30, 0.55), transparent 60%);
+    }
+
+    /* Print registration marks */
+    .regmark {
+      position: fixed;
+      z-index: 40;
+      font-family: var(--mono);
+      font-size: 14px;
+      color: rgba(233, 241, 248, 0.28);
+      pointer-events: none;
+    }
+    .regmark.tl { top: 74px; left: 14px; }
+    .regmark.tr { top: 74px; right: 14px; }
+    .regmark.bl { bottom: 12px; left: 14px; }
+    .regmark.br { bottom: 12px; right: 14px; }
+
+    main, footer { position: relative; z-index: 1; }
+
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
 
     .tag {
       font-family: var(--mono);
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--steel);
+      color: var(--faint);
     }
 
-    /* HEADER — freight-label strip */
-    header {
-      background: var(--ink);
-      color: var(--fog);
-      border-bottom: 6px solid var(--cargo);
-      padding: 20px 0;
+    a { color: var(--markup); }
+    a:focus-visible { outline: 2px solid var(--markup); outline-offset: 3px; }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(10, 36, 64, 0.86);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
     }
-    .header-row {
+    .nav-inner {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
+      height: 64px;
       gap: 16px;
-      flex-wrap: wrap;
     }
-    .header-row .tag { color: var(--cargo); }
+    .brand {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--paper);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand b { color: var(--markup); font-weight: 500; }
+    .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+      text-decoration: none;
+      padding: 22px 12px 20px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab:hover { color: var(--paper); }
+    .tab.active { color: var(--markup); border-bottom-color: var(--markup); }
 
-    /* HERO */
-    .hero { padding: 88px 0 56px; }
+    /* ============================================================
+       TITLE BLOCK — section headers styled like drawing sheets
+       ============================================================ */
+    .tblock {
+      display: flex;
+      border: 1px solid var(--line);
+      background: rgba(10, 36, 64, 0.45);
+      margin-bottom: 44px;
+    }
+    .tb-cell {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 11px 16px;
+    }
+    .tb-no { color: var(--markup); border-right: 1px solid var(--line); }
+    .tb-title { flex: 1; color: var(--paper); }
+    .tb-rev { color: var(--faint); border-left: 1px solid var(--line); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    section { scroll-margin-top: 76px; padding: 96px 0 8px; }
+    #overview { padding-top: 0; padding-bottom: 0; }
+
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+      padding: 132px 0 56px;
+    }
+    .kicker {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--markup);
+      margin-bottom: 18px;
+    }
     .hero h1 {
       font-family: var(--display);
       font-weight: 600;
+<<<<<<< HEAD
+      font-size: clamp(2.5rem, 6.2vw, 4.4rem);
+      line-height: 1.16;
+=======
       font-size: clamp(2.4rem, 6vw, 4.2rem);
       line-height: 1.35;
+>>>>>>> 12c7a30bae08e8dc3375e8182e49615fc2016624
       text-transform: uppercase;
       letter-spacing: 0.01em;
-      max-width: 20ch;
+      max-width: 16ch;
     }
-    .hero h1 em {
-      font-style: normal;
-      background: var(--cargo);
-      padding: 0 0.15em;
+    /* Redline markup: the engineer's pen circling what matters */
+    .rl {
+      border: 2px solid var(--markup);
+      padding: 0.02em 0.14em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
     }
-    .hero p {
-      margin-top: 24px;
-      max-width: 58ch;
-      color: var(--steel);
-      font-size: 1.1rem;
+    .hero .lead {
+      margin-top: 26px;
+      max-width: 52ch;
+      color: var(--faint);
+      font-size: 1.12rem;
     }
-    .toolkit { margin-top: 28px; }
+    .chips { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+      border: 1px solid var(--line);
+      padding: 5px 10px;
+    }
+    .ctas { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 13px 22px;
+      border: 1px solid var(--markup);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn.primary { background: var(--markup); color: var(--sheet-2); }
+    .btn.ghost { color: var(--markup); }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.ghost:hover { background: rgba(255, 107, 53, 0.12); }
 
-    section { padding: 56px 0; }
-
-    .section-head {
-      display: flex;
+    /* Portrait: double-framed like a drawing figure */
+    .portrait-block { justify-self: end; width: 100%; max-width: 380px; }
+    .portrait {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      outline: 1px solid rgba(233, 241, 248, 0.08);
+      outline-offset: 5px;
+      overflow: hidden;
+    }
+    .portrait img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(14%) contrast(1.03);
+    }
+    .ph {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 32px;
+      justify-content: center;
+      gap: 12px;
     }
-    .section-head::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--ink);
-      opacity: 0.15;
+    .ph.show { display: flex; }
+    .ph .monogram {
+      font-family: var(--display);
+      font-size: 5rem;
+      font-weight: 600;
+      color: rgba(233, 241, 248, 0.16);
+      letter-spacing: 0.05em;
+    }
+    .fig { display: flex; justify-content: space-between; padding: 14px 2px 0; }
+
+    /* ============================================================
+       STATS BAND — the four-second read
+       ============================================================ */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      background: rgba(10, 36, 64, 0.45);
+      margin-bottom: 64px;
+    }
+    .stat { padding: 20px 22px; border-left: 1px solid var(--line); }
+    .stat:first-child { border-left: none; }
+    .stat-n {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 1.9rem;
+      line-height: 1.1;
+      color: var(--paper);
+    }
+    .stat-l {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-top: 6px;
+      display: block;
     }
 
-    /* EXPERIENCE — career as a shipment-tracking timeline */
-    .track { list-style: none; position: relative; padding-left: 34px; }
+    /* ============================================================
+       TICKER — the revision strip
+       ============================================================ */
+    .ticker {
+      background: var(--markup);
+      color: var(--sheet-2);
+      overflow: hidden;
+      padding: 12px 0;
+      border-top: 1px solid var(--sheet-2);
+      border-bottom: 1px solid var(--sheet-2);
+    }
+    .ticker-track {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: marquee 26s linear infinite;
+    }
+    .ticker-track span {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding-right: 3.2rem;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ============================================================
+       PROFILE
+       ============================================================ */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .profile-grid h2 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 1.7rem;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .profile-grid .copy p { color: var(--faint); max-width: 58ch; }
+    .profile-grid .copy p + p { margin-top: 14px; }
+    .profile-grid .copy strong { color: var(--paper); font-weight: 600; }
+    .waybill {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      outline: 1px solid rgba(233, 241, 248, 0.08);
+      outline-offset: 5px;
+      padding: 22px 24px;
+    }
+    .waybill .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--line);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .waybill .row:last-child { border-bottom: none; }
+    .waybill .k { color: var(--faint); }
+    .waybill .v { color: var(--paper); text-align: right; }
+    .dot {
+      display: inline-block;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--markup);
+      margin-right: 7px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.5); }
+      50%      { box-shadow: 0 0 0 6px rgba(255, 107, 53, 0); }
+    }
+
+    /* ============================================================
+       JOURNEY — schematic single-line diagram, scannable rows
+       ============================================================ */
+    .track { list-style: none; position: relative; padding-left: 36px; max-width: 820px; }
     .track::before {
       content: "";
       position: absolute;
-      left: 8px; top: 6px; bottom: 6px;
+      left: 8px; top: 8px; bottom: 8px;
       width: 2px;
-      background: var(--ink);
-      opacity: 0.2;
+      background: var(--line);
     }
-    .stop { position: relative; padding-bottom: 40px; }
-    .stop:last-child { padding-bottom: 0; }
+    .stop { position: relative; padding-bottom: 42px; }
+    .stop:last-child { padding-bottom: 12px; }
     .stop::before {
       content: "";
       position: absolute;
-      left: -34px; top: 6px;
+      left: -36px; top: 6px;
       width: 18px; height: 18px;
       border-radius: 50%;
-      background: var(--fog);
-      border: 3px solid var(--ink);
+      background: var(--sheet);
+      border: 2px solid var(--faint);
     }
-    .stop.current::before { background: var(--cargo); }
+    .stop.current::before {
+      background: var(--markup);
+      border-color: var(--markup);
+      box-shadow: 0 0 0 5px rgba(255, 107, 53, 0.16);
+    }
+    .stop-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .stop h3 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 1.22rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .dates {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+      white-space: nowrap;
+    }
+    .outcome { margin-top: 4px; color: var(--paper); font-weight: 600; max-width: 60ch; }
+    .detail { color: var(--faint); max-width: 60ch; margin-top: 2px; }
+    .stop .pending {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: 0.06em;
+      color: var(--faint);
+      border: 1px dashed var(--line);
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 8px;
+    }
+    .stop blockquote {
+      margin-top: 10px;
+      padding-left: 14px;
+      border-left: 2px solid var(--markup);
+      color: var(--faint);
+      font-size: 0.98rem;
+      max-width: 56ch;
+    }
 
-    .stop h3 { font-family: var(--display); font-weight: 500; font-size: 1.3rem; text-transform: uppercase; }
-    .stop .tag { display: block; margin: 2px 0 8px; }
-    .stop p { color: var(--steel); max-width: 62ch; }
-
-    /* PROJECTS — the manifest */
-    .manifest { display: grid; gap: 16px; }
+    /* ============================================================
+       WORK — spec sheets
+       ============================================================ */
+    .manifest { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .item {
-      background: var(--paper);
-      border: 1px solid rgba(24, 36, 48, 0.12);
-      border-left: 5px solid var(--cargo);
-      padding: 22px 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--markup);
+      padding: 24px 26px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
     }
-    .item .tag { display: block; margin-bottom: 6px; }
-    .item h3 { font-family: var(--display); font-weight: 500; font-size: 1.15rem; text-transform: uppercase; margin-bottom: 6px; }
-    .item p { color: var(--steel); }
+    .item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 107, 53, 0.5);
+      box-shadow: 0 14px 34px rgba(4, 16, 30, 0.5);
+    }
+    .item.featured { grid-column: 1 / -1; }
+    .item .tag { display: block; margin-bottom: 8px; }
+    .item h3 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .item p { color: var(--faint); max-width: 70ch; }
 
-    /* CONTACT */
-    footer {
-      background: var(--ink);
-      color: var(--fog);
-      border-top: 6px solid var(--cargo);
-      padding: 56px 0;
-      margin-top: 40px;
+    /* ============================================================
+       DISPATCHES
+       ============================================================ */
+    .dispatches { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .dispatch {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.25s, border-color 0.25s;
     }
-    footer h2 { font-family: var(--display); font-weight: 600; font-size: 2rem; text-transform: uppercase; margin-bottom: 16px; }
-    footer a {
-      color: var(--cargo);
+    .dispatch:hover { transform: translateY(-4px); border-color: rgba(255, 107, 53, 0.5); }
+    .dispatch .idx {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--markup);
+    }
+    .dispatch h3 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+    }
+    .dispatch p { color: var(--faint); flex: 1; }
+    .readlink {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       text-decoration: none;
+    }
+    .readlink:hover { text-decoration: underline; }
+    .more-note {
+      margin-top: 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* ============================================================
+       CONTACT
+       ============================================================ */
+    footer {
+      margin-top: 96px;
+      background: var(--sheet-2);
+      border-top: 4px solid var(--markup);
+      padding: 72px 0 56px;
+      scroll-margin-top: 76px;
+    }
+    footer h2 {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    footer .sub { color: var(--faint); max-width: 52ch; }
+    .contact-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 28px; }
+    .contact-row a {
       font-family: var(--mono);
       font-size: 0.95rem;
+      text-decoration: none;
     }
-    footer a:hover, footer a:focus-visible { text-decoration: underline; }
-    footer a:focus-visible { outline: 2px solid var(--cargo); outline-offset: 3px; }
-    .contact-row { display: flex; gap: 28px; flex-wrap: wrap; }
+    .contact-row a:hover { text-decoration: underline; }
+    .fineprint {
+      margin-top: 48px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* ============================================================
+       MOTION
+       ============================================================ */
+    .rise { opacity: 0; transform: translateY(16px); animation: riseIn 0.7s ease forwards; }
+    .rise.d1 { animation-delay: 0.08s; }
+    .rise.d2 { animation-delay: 0.18s; }
+    .rise.d3 { animation-delay: 0.28s; }
+    .rise.d4 { animation-delay: 0.38s; }
+    @keyframes riseIn { to { opacity: 1; transform: none; } }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
 
     @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; animation: none !important; }
+      html { scroll-behavior: auto; }
+      * { animation: none !important; transition: none !important; }
+      .rise, .reveal { opacity: 1; transform: none; }
+      .ticker-track { animation: none !important; }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 104px;
+        min-height: unset;
+        gap: 40px;
+      }
+      .portrait-block { justify-self: start; max-width: 320px; }
+      .profile-grid { grid-template-columns: 1fr; }
+      .manifest, .dispatches { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(odd) { border-left: none; }
+      .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .brand span.route { display: none; }
+      .tb-rev { display: none; }
+      .regmark { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="wrap header-row">
-      <span class="tag">Tej Patel / Supply Chain &amp; Operations</span>
-      <span class="tag">Origin: New Jersey &nbsp;·&nbsp; Current: New York, NY</span>
+  <div class="vignette" aria-hidden="true"></div>
+  <span class="regmark tl" aria-hidden="true">+</span>
+  <span class="regmark tr" aria-hidden="true">+</span>
+  <span class="regmark bl" aria-hidden="true">+</span>
+  <span class="regmark br" aria-hidden="true">+</span>
+
+  <!-- ============================================================
+       NAV
+       ============================================================ -->
+  <nav class="nav" aria-label="Main">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#overview">TEJ PATEL <b>▸</b> <span class="route">NJ → NYC</span></a>
+      <div class="tabs">
+        <a class="tab active" href="#overview">Overview</a>
+        <a class="tab" href="#journey">Journey</a>
+        <a class="tab" href="#work">Work</a>
+        <a class="tab" href="#dispatches">Dispatches</a>
+        <a class="tab" href="#contact">Contact</a>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <main>
-    <div class="wrap">
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section id="overview">
+      <div class="wrap hero">
+        <div>
+          <p class="kicker rise">DWG NO. TP-2026 · Strategy · AI · Supply Chain</p>
+          <h1 class="rise d1">From the <span class="rl">warehouse floor</span> to the <span class="rl">AI era</span>.</h1>
+          <p class="lead rise d2">
+            I started scanning packages in an Amazon fulfillment center.
+            Now I help enterprises rebuild their supply chains for what's
+            next — as a supply chain &amp; operations consultant at Bluecrux
+            in New York, with a master's in Supply Chain Analytics from
+            Rutgers. I like problems that are messy on the whiteboard and
+            measurable on the P&amp;L.
+          </p>
+          <div class="chips rise d3">
+            <span class="chip">Power BI</span>
+            <span class="chip">Tableau</span>
+            <span class="chip">SQL</span>
+            <span class="chip">SAP</span>
+            <span class="chip">Advanced Excel</span>
+            <span class="chip">Lean Six Sigma</span>
+          </div>
+          <div class="ctas rise d4">
+            <a class="btn primary" href="#work">See the work</a>
+            <a class="btn ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
 
-      <!-- HERO — the floor-to-strategy thesis -->
-      <div class="hero">
-        <h1>I learned supply chains from the <em>warehouse floor</em> up.</h1>
-        <p>
-          I started scanning packages in an Amazon fulfillment center. Now I
-          help enterprises redesign the supply chains those packages move
-          through — as a supply chain &amp; operations consultant at Bluecrux,
-          with a master's in Supply Chain Analytics from Rutgers. I like
-          problems that are messy on the whiteboard and measurable on the P&amp;L.
-        </p>
-        <p class="toolkit tag">Toolkit: Power BI · Tableau · SQL · SAP · Advanced Excel · Lean Six Sigma</p>
+        <div class="portrait-block rise d2">
+          <div class="portrait">
+            <!-- Drop your photo into the portfolio folder as tej.jpg
+                 and it appears here automatically. -->
+            <img src="tej.jpg" alt="Portrait of Tej Patel" class="portrait-img" />
+            <div class="ph" id="ph">
+              <span class="monogram">TP</span>
+              <span class="tag">Portrait pending — add tej.jpg</span>
+            </div>
+          </div>
+          <div class="fig">
+            <span class="tag">Fig. 01 — Consultant</span>
+            <span class="tag">Scale: NTS</span>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- EXPERIENCE — read bottom-up like a tracking page: origin at the bottom -->
-      <section id="experience">
-        <div class="section-head">
-          <span class="tag">01 / Tracking History</span>
+    <!-- ============================================================
+         TICKER — revision strip
+         ============================================================ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Strategy</span><span>AI</span><span>Supply Chain</span><span>Analytics</span><span>Operations</span><span>Procurement</span><span>DWG TP-2026</span><span>NJ → NYC</span><span>Strategy</span><span>AI</span><span>Supply Chain</span><span>Analytics</span><span>Operations</span><span>Procurement</span><span>DWG TP-2026</span><span>NJ → NYC</span>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         PROFILE
+         ============================================================ -->
+    <section id="profile">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-no">Sheet 00</span>
+          <span class="tb-cell tb-title">Profile</span>
+          <span class="tb-cell tb-rev">Rev C · T. Patel</span>
+        </div>
+
+        <div class="stats reveal">
+          <div class="stat"><span class="stat-n">$1.1M+</span><span class="stat-l">Annual savings — AT&amp;T RFP</span></div>
+          <div class="stat"><span class="stat-n">20K+</span><span class="stat-l">Items planned end-to-end</span></div>
+          <div class="stat"><span class="stat-n">99%+</span><span class="stat-l">On-time delivery held</span></div>
+          <div class="stat"><span class="stat-n">08</span><span class="stat-l">Career stops · NJ → NYC</span></div>
+        </div>
+
+        <div class="profile-grid">
+          <div class="copy reveal">
+            <h2>Operator's instincts, strategist's ambition.</h2>
+            <p>
+              I'm 24, based in New York, and I've spent every year since
+              high school inside supply chains from a different altitude —
+              founder, floor associate, co-op, intern at a Big 4, and now
+              consultant on enterprise transformations. The pattern:
+              <strong>I learn a level, then move up one, and keep what the
+              floor taught me.</strong>
+            </p>
+            <p>
+              My generation is entering operations just as AI forces the
+              biggest rethink in thirty years. I think that's the
+              opportunity of a career: the instinct to optimize what exists
+              is being replaced by the question of
+              <strong>whether it should exist at all</strong> — and I'd
+              rather be one of the people asking it than one of the people
+              defending the old answer.
+            </p>
+          </div>
+          <div class="waybill reveal">
+            <div class="row"><span class="k">Base</span><span class="v">New York, NY</span></div>
+            <div class="row"><span class="k">Origin</span><span class="v">New Jersey</span></div>
+            <div class="row"><span class="k">Role</span><span class="v">Consultant @ Bluecrux</span></div>
+            <div class="row"><span class="k">Education</span><span class="v">M.S. SCA, Rutgers '25</span></div>
+            <div class="row"><span class="k">Honors</span><span class="v">Director's Award</span></div>
+            <div class="row"><span class="k">Status</span><span class="v"><span class="dot"></span>In transit</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         JOURNEY
+         ============================================================ -->
+    <section id="journey">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-no">Sheet 01</span>
+          <span class="tb-cell tb-title">Journey — Tracking History</span>
+          <span class="tb-cell tb-rev">Rev C · T. Patel</span>
         </div>
         <ul class="track">
-          <li class="stop current">
-            <h3>Supply Chain &amp; Operations Consultant — Bluecrux</h3>
-            <span class="tag">Sep 2025 — Present · New York, NY · In transit</span>
-            <p>Consulting on enterprise supply chain transformation: mapping
-               end-to-end processes, designing operating models, and turning
-               messy stakeholder input into decisions leadership can act on.</p>
+          <li class="stop current reveal">
+            <div class="stop-head">
+              <h3>Supply Chain &amp; Operations Consultant — Bluecrux</h3>
+              <span class="dates">Sep 2025 — Present · NYC</span>
+            </div>
+            <span class="pending">Manifest pending — details to follow</span>
           </li>
-          <li class="stop">
-            <h3>M.S. Supply Chain Analytics — Rutgers Business School</h3>
-            <span class="tag">2025 · Director's Award — top cumulative GPA</span>
-            <p>Graduate work at the intersection of operations and data,
-               capped by an AI analytics capstone for Mars (see manifest below).</p>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>M.S. Supply Chain Analytics — Rutgers</h3>
+              <span class="dates">2025</span>
+            </div>
+            <p class="outcome">Director's Award — top cumulative GPA.</p>
+            <p class="detail">Graduate work at the junction of operations and
+               data, capped by an AI analytics capstone for Mars — Sheet 02.</p>
           </li>
-          <li class="stop">
-            <h3>Supply Planning Intern — AT&amp;T</h3>
-            <span class="tag">Dallas, TX · Sourcing &amp; Logistics</span>
-            <p>Led an RFP/RFQ transformation that saved $1.1M+ annually, and
-               planned 20k+ legacy items end-to-end while holding 99%+
-               on-time delivery.</p>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>Logistics Strategy Intern — LBA</h3>
+              <span class="dates">Summer 2025 · Chicago</span>
+            </div>
+            <p class="outcome">Steered investment strategy across a 400-asset industrial portfolio.</p>
+            <p class="detail">Synthesized tariff, outsourcing, and 3PL trends;
+               invited to present the findings to a broader audience.</p>
+            <blockquote>"Curious, driven, and a true self-starter" — supervisor's recommendation, LinkedIn</blockquote>
           </li>
-          <li class="stop">
-            <h3>Advisory Intern — KPMG</h3>
-            <span class="tag">New York, NY · Life Sciences</span>
-            <p>Diagnosed planning and forecasting gaps for a major life
-               sciences supply chain; findings cut SKU-level waste and
-               sharpened planning accuracy.</p>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>Advisory Intern — KPMG</h3>
+              <span class="dates">Summer 2024 · NYC</span>
+            </div>
+            <p class="outcome">Cut SKU-level waste in a life-sciences supply chain.</p>
+            <p class="detail">Diagnosed planning and forecasting gaps; structured
+               findings into executive-ready recommendations.</p>
           </li>
-          <li class="stop">
-            <h3>Origin Scan — Amazon Fulfillment Center</h3>
-            <span class="tag">Somerset, NJ · FC Associate</span>
-            <p>Inbound and outbound stations in a high-volume FC. The reason
-               I've never designed a process without asking what it feels
-               like to execute it.</p>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>Supply Planning Intern — AT&amp;T</h3>
+              <span class="dates">Dallas, TX</span>
+            </div>
+            <p class="outcome">$1.1M+ annual savings from an RFP/RFQ transformation.</p>
+            <p class="detail">Planned 20k+ legacy items end-to-end while holding
+               99%+ on-time delivery; grew supplier-diversity spend.</p>
+          </li>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>BI &amp; Supply Chain Co-op — Johnson &amp; Johnson</h3>
+              <span class="dates">2022 — 2023 · New Brunswick</span>
+            </div>
+            <p class="outcome">Dashboards and solution validation for project-management teams.</p>
+            <p class="detail">Power BI across integrated data; earned a Lean Six
+               Sigma Yellow Belt along the way.</p>
+          </li>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>FC Associate — Amazon · Floor Scan</h3>
+              <span class="dates">2021 · Somerset, NJ</span>
+            </div>
+            <p class="outcome">The floor education.</p>
+            <p class="detail">Rotated through inbound, order picking, and
+               inter-facility transfer — the reason I never design a process
+               without asking what it feels like to execute it.</p>
+          </li>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>Co-Founder — SparkChange · Origin Scan</h3>
+              <span class="dates">2017 — 2020 · MIT LaunchX</span>
+            </div>
+            <p class="outcome">First build — a climate venture founded in high school.</p>
+            <p class="detail">Shaped concept, design, and strategy for an
+               early-stage venture aimed at cutting household emissions —
+               first proof I'd rather build the thing than study it.</p>
           </li>
         </ul>
-      </section>
+      </div>
+    </section>
 
-      <!-- PROJECTS — the manifest -->
-      <section id="projects">
-        <div class="section-head">
-          <span class="tag">02 / Manifest</span>
+    <!-- ============================================================
+         WORK
+         ============================================================ -->
+    <section id="work">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-no">Sheet 02</span>
+          <span class="tb-cell tb-title">Work — Manifest</span>
+          <span class="tb-cell tb-rev">Rev C · T. Patel</span>
         </div>
         <div class="manifest">
-          <article class="item">
-            <span class="tag">Item 001 · AI + Analytics · Mars (Capstone)</span>
+          <article class="item featured reveal">
+            <span class="tag">Item 001 · AI × Analytics · Mars (Capstone)</span>
             <h3>LLM-Powered Maintenance Intelligence</h3>
-            <p>Built Power BI dashboards unifying maintenance and production
-               data across global manufacturing sites, with an LLM-driven SQL
-               chatbot that surfaces equipment trend signals before failures
-               become downtime.</p>
+            <p>Designed and deployed Power BI dashboards unifying
+               maintenance and production data across global manufacturing
+               sites — with an embedded LLM-driven SQL chatbot that
+               surfaces equipment trend signals before failures become
+               downtime. Analytics people can build dashboards; the
+               difference here was making the data conversational.</p>
           </article>
-          <article class="item">
+          <article class="item reveal">
             <span class="tag">Item 002 · Sourcing · AT&amp;T</span>
             <h3>RFP Transformation, $1.1M Saved</h3>
-            <p>Rebuilt the RFP/RFQ process end to end — faster cycles, broader
-               supplier diversity spend, and $1.1M+ in annual savings.</p>
+            <p>Rebuilt the RFP/RFQ process end to end — faster cycles,
+               broader supplier-diversity spend, and $1.1M+ in annual
+               savings.</p>
           </article>
-          <article class="item">
-            <span class="tag">Item 003 · Strategy · LBA Logistics</span>
-            <h3>Forecasting Logistics Demand Across 400 Assets</h3>
-            <p>Synthesized tariff, outsourcing, and 3PL trends across a
-               400-asset industrial portfolio to guide investment across cold
-               storage, cross-dock, and automated distribution.</p>
+          <article class="item reveal">
+            <span class="tag">Item 003 · Strategy · LBA</span>
+            <h3>Forecasting Demand Across 400 Assets</h3>
+            <p>Modeled how tariffs, outsourcing, and 3PL shifts would move
+               logistics demand across cold storage, cross-dock, and
+               automated distribution — to steer real investment dollars.</p>
+          </article>
+          <article class="item reveal">
+            <span class="tag">Item 004 · Advisory · Rutgers</span>
+            <h3>Strategy for Six Industry Executives</h3>
+            <p>Assessed and presented strategic solutions to executives
+               from AMEX, Sanofi, and others — built to help VPs secure
+               internal buy-in, not sit in a deck.</p>
           </article>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         DISPATCHES
+         ============================================================ -->
+    <section id="dispatches">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-no">Sheet 03</span>
+          <span class="tb-cell tb-title">Dispatches — Writing</span>
+          <span class="tb-cell tb-rev">Rev C · T. Patel</span>
+        </div>
+        <div class="dispatches">
+          <article class="dispatch reveal">
+            <span class="idx">D-001 · Medium</span>
+            <h3>The Sushi Model</h3>
+            <p>An original framework applying pull-based, sushi-counter
+               economics to insulin cold chains — what Kanban distribution
+               could do for medicine access in underserved markets.</p>
+            <a class="readlink" href="https://medium.com/@tejdaxaypatel/the-sushi-model-8d0a19f71cb7" target="_blank" rel="noopener">Read on Medium ↗</a>
+          </article>
+          <article class="dispatch reveal">
+            <span class="idx">D-002 · LinkedIn</span>
+            <h3>The Optimization Trap</h3>
+            <p>Thirty years of optimization instinct built modern supply
+               chains — and may be the biggest obstacle to what's next. On
+               AI, CSCOs, and why my generation grows up on the other side
+               of that instinct.</p>
+            <a class="readlink" href="https://www.linkedin.com/in/tejp" target="_blank" rel="noopener">Read on LinkedIn ↗</a>
+          </article>
+        </div>
+        <p class="more-note reveal">More dispatches in transit.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTACT
+         ============================================================ -->
+    <footer id="contact">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-no">Sheet 04</span>
+          <span class="tb-cell tb-title">Contact</span>
+          <span class="tb-cell tb-rev">Rev C · T. Patel</span>
+        </div>
+        <h2 class="reveal">Get in touch.</h2>
+        <p class="sub reveal">Open to conversations about supply chain, AI in
+           operations, and hard problems worth solving.</p>
+        <div class="contact-row reveal">
+          <a href="mailto:tejdaxay@gmail.com">tejdaxay@gmail.com</a>
+          <a href="https://www.linkedin.com/in/tejp" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://medium.com/@tejdaxaypatel" target="_blank" rel="noopener">Medium ↗</a>
+        </div>
+        <p class="fineprint">© 2026 Tej Patel · DWG TP-2026 · Rev C · Drawn &amp; shipped from NYC · No trackers, no cookies</p>
+      </div>
+    </footer>
   </main>
 
-  <!-- CONTACT — email + LinkedIn only; no phone number on a public page -->
-  <footer id="contact">
-    <div class="wrap">
-      <h2>Get in touch</h2>
-      <div class="contact-row">
-        <a href="mailto:tejdaxay@gmail.com">tejdaxay@gmail.com</a>
-        <a href="https://www.linkedin.com/in/tejp" target="_blank" rel="noopener">LinkedIn ↗</a>
-      </div>
-    </div>
-  </footer>
+  <script>
+    // Portrait fallback: show the placeholder if tej.jpg is missing,
+    // whether the error already fired or fires later.
+    const pImg = document.querySelector('.portrait-img');
+    const showPh = () => {
+      if (pImg) pImg.remove();
+      const ph = document.getElementById('ph');
+      if (ph) ph.classList.add('show');
+    };
+    if (pImg) {
+      if (pImg.complete && pImg.naturalWidth === 0) showPh();
+      else pImg.addEventListener('error', showPh);
+    }
 
+    // Scroll reveals
+    const reveals = document.querySelectorAll('.reveal');
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          ro.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach((el) => ro.observe(el));
+
+    // Active tab highlighting
+    const tabs = document.querySelectorAll('.tab');
+    const targets = ['overview', 'journey', 'work', 'dispatches', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const to = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          tabs.forEach((t) => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    targets.forEach((s) => to.observe(s));
+  </script>
 </body>
 </html>
