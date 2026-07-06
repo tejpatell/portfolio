@@ -159,6 +159,28 @@
       white-space: nowrap;
       transition: color 0.2s, border-color 0.2s;
     }
+    .tab:hover { color: var(--paper); }
+    .tab.active { color: var(--markup); border-bottom-color: var(--markup); }
+
+    /* ============================================================
+       TITLE BLOCK — section headers styled like drawing sheets
+       ============================================================ */
+    .tblock {
+      display: flex;
+      border: 1px solid var(--line);
+      background: rgba(10, 36, 64, 0.45);
+      margin-bottom: 44px;
+    }
+    .tb-cell {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 11px 16px;
+    }
+    .tb-no { color: var(--markup); border-right: 1px solid var(--line); }
+    .tb-title { flex: 1; color: var(--paper); }
+    .tb-rev { color: var(--faint); border-left: 1px solid var(--line); }
     .tab:hover { color: var(--ink); }
     .tab.active { color: var(--markup); border-bottom-color: var(--markup); }
 
@@ -182,6 +204,28 @@
     .tb-title { flex: 1; color: var(--ink); }
     .tb-rev { color: var(--faint); border-left: 1px solid var(--line); }
 
+    /* ============================================================
+       HERO
+       ============================================================ */
+    section { scroll-margin-top: 76px; padding: 96px 0 8px; }
+    #overview { padding-top: 0; padding-bottom: 0; }
+
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+      padding: 132px 0 56px;
+    }
+    .kicker {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--markup);
+      margin-bottom: 18px;
+    }
     /* ============================================================
        HERO
        ============================================================ */
@@ -802,6 +846,14 @@
           </li>
           <li class="stop reveal">
             <div class="stop-head">
+              <h3>Advisory Intern — KPMG</h3>
+              <span class="dates">Summer 2024 · NYC</span>
+            </div>
+            <p class="outcome">Cut SKU-level waste in a life-sciences supply chain.</p>
+            <p class="detail">Diagnosed planning and forecasting gaps; structured
+               findings into executive-ready recommendations.</p>
+          <li class="stop reveal">
+            <div class="stop-head">
               <h3>Supply Chain and Engineering Co-op · Johnson &amp; Johnson</h3>
               <span class="dates">2022–2023 · New Brunswick, NJ</span>
             </div>
@@ -810,6 +862,23 @@
                data and validated solutions for project-management teams.
                Earned a Lean Six Sigma Yellow Belt along the way.</p>
           </li>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>Supply Planning Intern — AT&amp;T</h3>
+              <span class="dates">Dallas, TX</span>
+            </div>
+            <p class="outcome">$1.1M+ annual savings from an RFP/RFQ transformation.</p>
+            <p class="detail">Planned 20k+ legacy items end-to-end while holding
+               99%+ on-time delivery; grew supplier-diversity spend.</p>
+          </li>
+          <li class="stop reveal">
+            <div class="stop-head">
+              <h3>BI &amp; Supply Chain Co-op — Johnson &amp; Johnson</h3>
+              <span class="dates">2022 — 2023 · New Brunswick</span>
+            </div>
+            <p class="outcome">Dashboards and solution validation for project-management teams.</p>
+            <p class="detail">Power BI across integrated data; earned a Lean Six
+               Sigma Yellow Belt along the way.</p>
           <li class="stop reveal">
             <div class="stop-head">
               <h3>Fulfillment Center Associate · Amazon</h3>
