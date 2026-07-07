@@ -327,6 +327,38 @@
     }
 
     /* ============================================================
+       INTERESTS: specimen grid, off the clock
+       ============================================================ */
+    .interest-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .interest {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 8px 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      transition: border-color 0.25s;
+    }
+    .interest:hover { border-color: rgba(173, 66, 24, 0.45); }
+    .interest .idx {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--markup);
+    }
+    .interest .label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* ============================================================
        CONTACT: ink block
        ============================================================ */
     footer {
@@ -527,6 +559,30 @@
             <img src="photos/hobby-09.jpg" alt="Personal photo" loading="lazy" />
             <img src="photos/hobby-10.jpg" alt="Personal photo" loading="lazy" />
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         INTERESTS
+         ============================================================ -->
+    <section id="interests">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-title">Interests</span>
+          <span class="tb-cell tb-label">Beyond Work</span>
+        </div>
+        <div class="interest-grid reveal">
+          <div class="interest"><span class="idx">01</span><span class="label">Personal Finance</span></div>
+          <div class="interest"><span class="idx">02</span><span class="label">Emerging Technology</span></div>
+          <div class="interest"><span class="idx">03</span><span class="label">Global Travel</span></div>
+          <div class="interest"><span class="idx">04</span><span class="label">Community Impact</span></div>
+          <div class="interest"><span class="idx">05</span><span class="label">Real Estate</span></div>
+          <div class="interest"><span class="idx">06</span><span class="label">Team Sports</span></div>
+          <div class="interest"><span class="idx">07</span><span class="label">Golf</span></div>
+          <div class="interest"><span class="idx">08</span><span class="label">Outdoor Adventure</span></div>
+          <div class="interest"><span class="idx">09</span><span class="label">Chess</span></div>
+          <div class="interest"><span class="idx">10</span><span class="label">Painting</span></div>
         </div>
       </div>
     </section>
