@@ -159,28 +159,6 @@
       white-space: nowrap;
       transition: color 0.2s, border-color 0.2s;
     }
-    .tab:hover { color: var(--paper); }
-    .tab.active { color: var(--markup); border-bottom-color: var(--markup); }
-
-    /* ============================================================
-       TITLE BLOCK — section headers styled like drawing sheets
-       ============================================================ */
-    .tblock {
-      display: flex;
-      border: 1px solid var(--line);
-      background: rgba(10, 36, 64, 0.45);
-      margin-bottom: 44px;
-    }
-    .tb-cell {
-      font-family: var(--mono);
-      font-size: 11.5px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 11px 16px;
-    }
-    .tb-no { color: var(--markup); border-right: 1px solid var(--line); }
-    .tb-title { flex: 1; color: var(--paper); }
-    .tb-rev { color: var(--faint); border-left: 1px solid var(--line); }
     .tab:hover { color: var(--ink); }
     .tab.active { color: var(--markup); border-bottom-color: var(--markup); }
 
@@ -200,32 +178,9 @@
       text-transform: uppercase;
       padding: 12px 18px;
     }
-    .tb-no { color: var(--markup); border-right: 1px solid var(--line); }
     .tb-title { flex: 1; color: var(--ink); }
-    .tb-rev { color: var(--faint); border-left: 1px solid var(--line); }
+    .tb-label { color: var(--markup); border-left: 1px solid var(--line); }
 
-    /* ============================================================
-       HERO
-       ============================================================ */
-    section { scroll-margin-top: 76px; padding: 96px 0 8px; }
-    #overview { padding-top: 0; padding-bottom: 0; }
-
-    .hero {
-      min-height: 86vh;
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 48px;
-      align-items: center;
-      padding: 132px 0 56px;
-    }
-    .kicker {
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--markup);
-      margin-bottom: 18px;
-    }
     /* ============================================================
        HERO
        ============================================================ */
@@ -252,11 +207,11 @@
     .hero h1 {
       font-family: var(--display);
       font-weight: 600;
-      font-size: clamp(2.5rem, 6.2vw, 4.4rem);
-      line-height: 1.32;
+      font-size: clamp(1.6rem, 4.4vw, 3rem);
+      line-height: 1.38;
       text-transform: uppercase;
       letter-spacing: 0.01em;
-      max-width: 16ch;
+      white-space: nowrap;
     }
     /* Redline markup: the engineer's pen circling what matters */
     .rl {
@@ -272,6 +227,7 @@
       font-size: 1.12rem;
     }
     .chips { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .chips + .chips { margin-top: 10px; }
     .chip {
       font-family: var(--mono);
       font-size: 11px;
@@ -473,10 +429,23 @@
     .stop-head {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       gap: 18px;
       flex-wrap: wrap;
     }
+    /* Company marks: quiet by default, full color on hover.
+       Drop transparent PNGs into /logos and they appear. */
+    .role-id { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .logo {
+      height: 24px;
+      width: auto;
+      max-width: 90px;
+      object-fit: contain;
+      flex: none;
+      filter: grayscale(1) opacity(0.7);
+      transition: filter 0.25s;
+    }
+    .stop:hover .logo { filter: none; }
     .stop h3 {
       font-family: var(--display);
       font-weight: 500;
@@ -587,9 +556,8 @@
       background: rgba(255, 255, 255, 0.04);
       border-color: rgba(246, 243, 236, 0.2);
     }
-    footer .tb-no { color: var(--accent-on-navy); border-color: rgba(246, 243, 236, 0.2); }
     footer .tb-title { color: var(--paper-on-navy); }
-    footer .tb-rev { color: var(--faint-on-navy); border-color: rgba(246, 243, 236, 0.2); }
+    footer .tb-label { color: var(--accent-on-navy); border-color: rgba(246, 243, 236, 0.2); }
     .contact-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 28px; }
     .contact-row a {
       font-family: var(--mono);
@@ -644,7 +612,6 @@
       .stats { grid-template-columns: 1fr 1fr; }
       .stat:nth-child(odd) { border-left: none; }
       .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
-      .tb-rev { display: none; }
       .regmark { display: none; }
       .mhgrid { display: none; }
     }
@@ -670,7 +637,7 @@
         <a class="tab" href="#about">About</a>
         <a class="tab" href="#experience">Experience</a>
         <a class="tab" href="#education">Education</a>
-        <a class="tab" href="#work">Work</a>
+        <a class="tab" href="#work">Projects</a>
         <a class="tab" href="updates.html">Updates</a>
         <a class="tab" href="#contact">Contact</a>
       </div>
@@ -685,7 +652,7 @@
       <div class="wrap hero">
         <div>
           <p class="kicker rise">Strategy · AI · Supply Chain</p>
-          <h1 class="rise d1">From the <span class="rl">warehouse floor</span> to the <span class="rl">AI era</span>.</h1>
+          <h1 class="rise d1">From the <span class="rl">warehouse floor</span><br />to the <span class="rl">AI era</span>.</h1>
           <p class="lead rise d2">
             I started scanning packages in an Amazon fulfillment center.
             Now I help enterprises rebuild their supply chains as a
@@ -699,6 +666,9 @@
             <span class="chip">Company Restructuring</span>
             <span class="chip">Tariff Strategy</span>
             <span class="chip">Supply Planning</span>
+          </div>
+          <div class="chips rise d3">
+            <span class="chip">Prompt Engineering</span>
             <span class="chip">Procurement</span>
             <span class="chip">SAP</span>
             <span class="chip">Power BI</span>
@@ -745,9 +715,8 @@
     <section id="about">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Snapshot</span>
           <span class="tb-cell tb-title">About</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
+          <span class="tb-cell tb-label">Snapshot</span>
         </div>
 
         <div class="stats reveal">
@@ -795,47 +764,57 @@
     <section id="experience">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Floor to Consulting</span>
           <span class="tb-cell tb-title">Experience</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
+          <span class="tb-cell tb-label">Floor to Consulting</span>
         </div>
         <ul class="track">
           <li class="stop current reveal">
             <div class="stop-head">
-              <h3>Supply Chain &amp; Operations Consultant · Bluecrux</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/bluecrux.png" alt="" onerror="this.remove()" />
+                <h3>Supply Chain &amp; Operations Consultant · Bluecrux</h3>
+              </div>
               <span class="dates">Sep 2025 – Present · New York Metro</span>
             </div>
             <p class="outcome">Consulting on a global SAP supply chain transformation.</p>
-            <p class="detail">I map how the client's supply chain actually
-               runs, end to end. I lead the working sessions that turn
-               stakeholder noise into clear problem statements, then put
-               recommendations in front of leadership.</p>
+            <p class="detail">My first engagement. I map how the client's
+               supply chain actually runs, end to end, lead the working
+               sessions that turn stakeholder noise into clear problem
+               statements, and put recommendations in front of
+               leadership.</p>
           </li>
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>Logistics Strategy Intern · LBA Logistics</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/lba.png" alt="" onerror="this.remove()" />
+                <h3>Logistics Strategy Intern · LBA Logistics</h3>
+              </div>
               <span class="dates">Summer 2025 · Chicago, IL</span>
             </div>
             <p class="outcome">Steered investment strategy across a 400-asset industrial portfolio.</p>
             <p class="detail">Synthesized tariff, outsourcing, and 3PL
                trends to forecast where logistics demand would move next.
                The findings guided real investment dollars, and I was
-               invited to present them to a broader audience.</p>
+               invited back.</p>
           </li>
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>Advisory Intern · KPMG</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/kpmg.png" alt="" onerror="this.remove()" />
+                <h3>Advisory Intern · KPMG</h3>
+              </div>
               <span class="dates">Summer 2024 · New York, NY</span>
             </div>
-            <p class="outcome">Pharma supply chain planning at a Big 4 firm.</p>
-            <p class="detail">Worked on planning configuration for a
-               life-sciences client. Cut SKU-level waste, sharpened
-               forecast decisions, and shaped the findings into
-               recommendations executives could act on.</p>
+            <p class="outcome">Cut SKU-level waste in a life-sciences supply chain.</p>
+            <p class="detail">Diagnosed planning and forecasting gaps; structured
+               findings into executive-ready recommendations.</p>
           </li>
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>Supply Planning Intern · AT&amp;T</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/att.png" alt="" onerror="this.remove()" />
+                <h3>Supply Planning Intern · AT&amp;T</h3>
+              </div>
               <span class="dates">Summer 2023 · Dallas, TX</span>
             </div>
             <p class="outcome">Led an RFQ automation initiative that saves $1.1M+ a year.</p>
@@ -846,42 +825,22 @@
           </li>
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>Advisory Intern — KPMG</h3>
-              <span class="dates">Summer 2024 · NYC</span>
-            </div>
-            <p class="outcome">Cut SKU-level waste in a life-sciences supply chain.</p>
-            <p class="detail">Diagnosed planning and forecasting gaps; structured
-               findings into executive-ready recommendations.</p>
-          <li class="stop reveal">
-            <div class="stop-head">
-              <h3>Supply Chain and Engineering Co-op · Johnson &amp; Johnson</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/jnj.png" alt="" onerror="this.remove()" />
+                <h3>Supply Chain and Engineering Co-op · Johnson &amp; Johnson</h3>
+              </div>
               <span class="dates">2022–2023 · New Brunswick, NJ</span>
-            </div>
-            <p class="outcome">Enterprise scale, seen from the inside.</p>
-            <p class="detail">Built Power BI dashboards across integrated
-               data and validated solutions for project-management teams.
-               Earned a Lean Six Sigma Yellow Belt along the way.</p>
-          </li>
-          <li class="stop reveal">
-            <div class="stop-head">
-              <h3>Supply Planning Intern — AT&amp;T</h3>
-              <span class="dates">Dallas, TX</span>
-            </div>
-            <p class="outcome">$1.1M+ annual savings from an RFP/RFQ transformation.</p>
-            <p class="detail">Planned 20k+ legacy items end-to-end while holding
-               99%+ on-time delivery; grew supplier-diversity spend.</p>
-          </li>
-          <li class="stop reveal">
-            <div class="stop-head">
-              <h3>BI &amp; Supply Chain Co-op — Johnson &amp; Johnson</h3>
-              <span class="dates">2022 — 2023 · New Brunswick</span>
             </div>
             <p class="outcome">Dashboards and solution validation for project-management teams.</p>
             <p class="detail">Power BI across integrated data; earned a Lean Six
                Sigma Yellow Belt along the way.</p>
+          </li>
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>Fulfillment Center Associate · Amazon</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/amazon.png" alt="" onerror="this.remove()" />
+                <h3>Fulfillment Center Associate · Amazon</h3>
+              </div>
               <span class="dates">2021 · Somerset, NJ</span>
             </div>
             <p class="outcome">The floor education.</p>
@@ -901,17 +860,19 @@
     <section id="education">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">M.S. · B.S.</span>
           <span class="tb-cell tb-title">Education</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
+          <span class="tb-cell tb-label">M.S. · B.S.</span>
         </div>
         <ul class="track">
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>M.S. Supply Chain Analytics · Rutgers Business School</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/rutgers.png" alt="" onerror="this.remove()" />
+                <h3>M.S. Supply Chain Analytics · Rutgers Business School</h3>
+              </div>
               <span class="dates">2025 · New Brunswick, NJ</span>
             </div>
-            <p class="outcome">Gartner Top 5 program in North America. Director's Award ×2: top 5 in class and biggest impact on community.</p>
+            <p class="outcome">Gartner Top 5 program in North America.<br />Director's Award ×2: top 5 in class and biggest impact on community.</p>
             <p class="detail">Capstone with Mars: AI prototypes for a
                global supply chain. Power BI dashboards unifying
                maintenance and production data across manufacturing sites
@@ -921,7 +882,10 @@
           </li>
           <li class="stop reveal">
             <div class="stop-head">
-              <h3>B.S. · Rutgers Business School</h3>
+              <div class="role-id">
+                <img class="logo" src="logos/rutgers.png" alt="" onerror="this.remove()" />
+                <h3>B.S. · Rutgers Business School</h3>
+              </div>
               <span class="dates">New Brunswick, NJ</span>
             </div>
             <p class="outcome">Where supply chain became the plan.</p>
@@ -940,9 +904,7 @@
     <section id="work">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Selected</span>
-          <span class="tb-cell tb-title">Work</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
+          <span class="tb-cell tb-title">Projects</span>
         </div>
         <div class="manifest">
           <article class="item featured reveal">
@@ -987,9 +949,7 @@
     <footer id="contact">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Open</span>
           <span class="tb-cell tb-title">Contact</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
         </div>
         <h2 class="reveal">Get in touch.</h2>
         <p class="sub reveal">Open to conversations about global supply chain
@@ -1000,7 +960,7 @@
           <a href="https://www.linkedin.com/in/tejp" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a href="https://medium.com/@tejdaxaypatel" target="_blank" rel="noopener">Medium ↗</a>
         </div>
-        <p class="fineprint">© 2026 Tej Patel · Drawn in New York · 40.7128° N, 74.0060° W · No trackers, no cookies</p>
+        <p class="fineprint">© 2026 Tej Patel · Made &amp; Designed in New York · 40.7128° N, 74.0060° W · No trackers, no cookies</p>
       </div>
     </footer>
   </main>

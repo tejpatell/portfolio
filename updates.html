@@ -158,9 +158,8 @@
       text-transform: uppercase;
       padding: 12px 18px;
     }
-    .tb-no { color: var(--markup); border-right: 1px solid var(--line); }
     .tb-title { flex: 1; color: var(--ink); }
-    .tb-rev { color: var(--faint); border-left: 1px solid var(--line); }
+    .tb-label { color: var(--markup); border-left: 1px solid var(--line); }
 
     /* ============================================================
        PAGE HEAD
@@ -285,6 +284,49 @@
     .readlink:hover { text-decoration: underline; }
 
     /* ============================================================
+       PHOTOS: auto-sliding strip of personal photos.
+       Drop images into /photos as hobby-01.jpg ... hobby-10.jpg
+       and the section appears. Click a photo to enlarge.
+       ============================================================ */
+    .strip-shell {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 12px;
+    }
+    .strip {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+      will-change: transform;
+    }
+    .strip img {
+      height: 160px;
+      width: auto;
+      display: block;
+      cursor: zoom-in;
+      border: 1px solid var(--line);
+    }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(20, 39, 61, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 4vmin;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      border: 4px solid var(--panel);
+    }
+
+    /* ============================================================
        CONTACT: ink block
        ============================================================ */
     footer {
@@ -307,9 +349,8 @@
       background: rgba(255, 255, 255, 0.04);
       border-color: rgba(246, 243, 236, 0.2);
     }
-    footer .tb-no { color: var(--accent-on-navy); border-color: rgba(246, 243, 236, 0.2); }
     footer .tb-title { color: var(--paper-on-navy); }
-    footer .tb-rev { color: var(--faint-on-navy); border-color: rgba(246, 243, 236, 0.2); }
+    footer .tb-label { color: var(--accent-on-navy); border-color: rgba(246, 243, 236, 0.2); }
     .contact-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 28px; }
     .contact-row a {
       font-family: var(--mono);
@@ -351,7 +392,6 @@
     @media (max-width: 860px) {
       .page-head { padding-top: 120px; }
       .dispatches { grid-template-columns: 1fr; }
-      .tb-rev { display: none; }
       .regmark { display: none; }
     }
   </style>
@@ -375,7 +415,7 @@
         <a class="tab" href="index.html#about">About</a>
         <a class="tab" href="index.html#experience">Experience</a>
         <a class="tab" href="index.html#education">Education</a>
-        <a class="tab" href="index.html#work">Work</a>
+        <a class="tab" href="index.html#work">Projects</a>
         <a class="tab active" href="updates.html">Updates</a>
         <a class="tab" href="#contact">Contact</a>
       </div>
@@ -401,9 +441,8 @@
     <section id="log">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Latest</span>
           <span class="tb-cell tb-title">Log</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
+          <span class="tb-cell tb-label">Latest</span>
         </div>
         <ul class="track">
           <li class="stop current reveal">
@@ -418,7 +457,7 @@
           <li class="stop reveal">
             <div class="stop-head">
               <h3>M.S. Supply Chain Analytics, Rutgers</h3>
-              <span class="dates">2025 · New Brunswick, NJ</span>
+              <span class="dates">May 2025 · New Brunswick, NJ</span>
             </div>
             <p class="detail">Director's Award ×2: top 5 in class and
                biggest impact on community. Capstone with Mars on AI for
@@ -429,7 +468,8 @@
               <h3>LBA Logistics, Strategy Internship</h3>
               <span class="dates">Summer 2025 · Chicago, IL</span>
             </div>
-            <p class="detail">Forecasted logistics demand across a
+            <p class="detail">Forecasted real estate demand and made sense
+               of the administration's ongoing tariff changes across a
                400-asset industrial portfolio to guide investment
                strategy.</p>
           </li>
@@ -443,9 +483,8 @@
     <section id="writing">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Essays</span>
           <span class="tb-cell tb-title">Writing</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
+          <span class="tb-cell tb-label">Essays</span>
         </div>
         <div class="dispatches">
           <article class="dispatch reveal">
@@ -467,14 +506,38 @@
     </section>
 
     <!-- ============================================================
+         PHOTOS: hidden automatically until images exist in /photos
+         ============================================================ -->
+    <section id="photos">
+      <div class="wrap">
+        <div class="tblock reveal">
+          <span class="tb-cell tb-title">Photos</span>
+          <span class="tb-cell tb-label">Off the Clock</span>
+        </div>
+        <div class="strip-shell reveal" id="stripShell">
+          <div class="strip" id="strip">
+            <img src="photos/hobby-01.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-02.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-03.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-04.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-05.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-06.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-07.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-08.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-09.jpg" alt="Personal photo" loading="lazy" />
+            <img src="photos/hobby-10.jpg" alt="Personal photo" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
          CONTACT
          ============================================================ -->
     <footer id="contact">
       <div class="wrap">
         <div class="tblock reveal">
-          <span class="tb-cell tb-no">Open</span>
           <span class="tb-cell tb-title">Contact</span>
-          <span class="tb-cell tb-rev">Rev E · T. Patel</span>
         </div>
         <h2 class="reveal">Get in touch.</h2>
         <p class="sub reveal">Open to conversations about global supply chain
@@ -485,10 +548,14 @@
           <a href="https://www.linkedin.com/in/tejp" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a href="https://medium.com/@tejdaxaypatel" target="_blank" rel="noopener">Medium ↗</a>
         </div>
-        <p class="fineprint">© 2026 Tej Patel · Drawn in New York · 40.7128° N, 74.0060° W · No trackers, no cookies</p>
+        <p class="fineprint">© 2026 Tej Patel · Made &amp; Designed in New York · 40.7128° N, 74.0060° W · No trackers, no cookies</p>
       </div>
     </footer>
   </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged photo">
+    <img src="" alt="Enlarged personal photo" />
+  </div>
 
   <script>
     // Scroll reveals
@@ -502,6 +569,67 @@
       });
     }, { threshold: 0.12 });
     reveals.forEach((el) => ro.observe(el));
+
+    // Photo strip: hide the section until real photos exist, then
+    // auto-slide. Missing files are removed silently, so partial
+    // sets (fewer than 10 photos) work fine.
+    const photoSection = document.getElementById('photos');
+    const shell = document.getElementById('stripShell');
+    const strip = document.getElementById('strip');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+
+    let pending = strip.querySelectorAll('img').length;
+    const settle = () => {
+      pending -= 1;
+      if (pending > 0) return;
+      if (strip.querySelectorAll('img').length === 0) {
+        photoSection.style.display = 'none';
+        return;
+      }
+      startSlide();
+    };
+    strip.querySelectorAll('img').forEach((img) => {
+      if (img.complete) {
+        if (img.naturalWidth === 0) img.remove();
+        settle();
+      } else {
+        img.addEventListener('load', settle);
+        img.addEventListener('error', () => { img.remove(); settle(); });
+      }
+    });
+
+    // Click to enlarge
+    strip.addEventListener('click', (e) => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      lightboxImg.src = img.src;
+      lightbox.classList.add('open');
+    });
+    lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') lightbox.classList.remove('open');
+    });
+
+    // Continuous slide, paused on hover and for reduced motion
+    function startSlide() {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (strip.scrollWidth <= shell.clientWidth) return;
+      strip.innerHTML += strip.innerHTML; // duplicate for a seamless loop
+      const loopWidth = strip.scrollWidth / 2;
+      let x = 0;
+      let paused = false;
+      shell.addEventListener('mouseenter', () => { paused = true; });
+      shell.addEventListener('mouseleave', () => { paused = false; });
+      const step = () => {
+        if (!paused) {
+          x = (x + 0.5) % loopWidth;
+          strip.style.transform = 'translateX(' + (-x) + 'px)';
+        }
+        requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
   </script>
 </body>
 </html>
